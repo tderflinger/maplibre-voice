@@ -1,0 +1,21 @@
+{
+  "scripts": {
+    "dev": "bunx --bun vite",
+    "build": "bunx --bun vite build",
+    "preview": "bunx --bun vite preview"
+  },
+  "dependencies": {
+    "@mistralai/mistralai": "^1.14.1",
+    "maplibre-gl": "^5.19.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-map-gl": "^8.1.0",
+    "yargs": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "vite": "^6.0.0"
+  },
+  "type": "module"
+}
