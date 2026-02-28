@@ -83,13 +83,13 @@ Code snippets have been taken from the Mistral and MapLibre documentation.
 
 Note: This code base was partially generated with coding LLMs.
 
-## Third-Party APIs
+## Third-Party APIs 🔌
 
 - Mistral (voxtral-mini-latest): https://docs.mistral.ai/capabilities/audio_transcription/offline_transcription
 - OpenFreeMap: https://openfreemap.org
 - Nominatim: https://nominatim.org
 - Overpass: https://wiki.openstreetmap.org/wiki/Overpass_API
 
-## License
+## License ⚖️
 
 MIT License
