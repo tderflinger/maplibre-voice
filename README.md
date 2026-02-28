@@ -35,6 +35,12 @@ Run the application with:
 bun run dev
 ```
 
+## Voice Commands
+
+- zoom in
+- zoom out
+- fly
+
 ## Security
 
 Note that this is a proof-of-concept and not ready for production. Especially the Mistral

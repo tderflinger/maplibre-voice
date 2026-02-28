@@ -2,33 +2,20 @@ import { useMap, useControl } from 'react-map-gl/maplibre';
 import { useState, useRef, useEffect } from 'react';
 import { VoiceRecorder } from '../util/VoiceRecorder';
 import { Mistral } from "@mistralai/mistralai";
-import type { IControl, Map as MaplibreMap } from 'maplibre-gl';
+import { VoiceButtonControl } from './VoiceButtonControl';
 
 const MISTRAL_API_KEY = import.meta.env.VITE_MISTRAL_API_KEY;
 const STT_MODEL = "voxtral-mini-latest";
+const ZOOM_IN = "zoom in";
+const ZOOM_OUT = "zoom out";
+const FLY = "fly";
 
 type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
-
-class VoiceButtonControl implements IControl {
-    private container: HTMLDivElement;
-
-    constructor(container: HTMLDivElement) {
-        this.container = container;
-    }
-
-    onAdd(_map: MaplibreMap) {
-        this.container.className = 'maplibregl-ctrl maplibregl-ctrl-group';
-        return this.container;
-    }
-
-    onRemove() {
-        this.container.parentNode?.removeChild(this.container);
-    }
-}
 
 export function VoiceControlButton({ position = 'bottom-right' }: { position?: Position }) {
     const { current: map } = useMap();
     const [listening, setListening] = useState(false);
+    const [sending, setSending] = useState(false);
     const [recorder, setRecorder] = useState<VoiceRecorder | null>(null);
     const containerRef = useRef<HTMLDivElement>(document.createElement('div'));
 
@@ -52,27 +39,34 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
 
         for await (const wavBlob of rec.chunkedStream()) {
             console.log(`Sending ${(wavBlob.size / 1024).toFixed(1)} KB chunk...`);
+
             const file = new File([wavBlob], "audio.wav", { type: "audio/wav" });
+            setSending(true);
             const transcription = await client.audio.transcriptions.complete({
                 model: STT_MODEL,
+                language: 'en',
+                temperature: 0,
+                diarize: false,
                 file,
             });
-            console.log('Transcription:', transcription.text ?? transcription);
+            setSending(false);
+            console.log('Transcription:', JSON.stringify(transcription));
 
             const text = transcription.text?.toLowerCase() ?? '';
-
-            if (text.includes("zoom in")) {
-                console.log('Zooming in!');
-                map?.getMap().zoomIn();
-            }
-
-            if (text.includes("zoom out")) {
-                console.log('Zooming out!');
-                map?.getMap().zoomOut();
-            }
-
-            if (text.includes("fly")) {
-                console.log('Flying...');
+            switch (true) {
+                case text.includes(ZOOM_IN):
+                    console.log('Zooming in!');
+                    map?.getMap().zoomIn();
+                    break;
+                case text.includes(ZOOM_OUT):
+                    console.log('Zooming out!');
+                    map?.getMap().zoomOut();
+                    break;
+                case text.includes(FLY):
+                    console.log('Flying...');
+                    break;
+                default:
+                    console.log('No command recognized in transcription.');
             }
 
             console.log("Listening...");
@@ -91,7 +85,9 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
         button.style.fontSize = '18px';
         button.style.cursor = 'pointer';
 
-        if (listening) {
+        if (sending) {
+            button.textContent = '📡';
+        } else if (listening) {
             const span = document.createElement('span');
             span.style.display = 'inline-block';
             span.style.width = '10px';
@@ -109,7 +105,7 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
         return () => {
             button.removeEventListener('click', handleClick);
         };
-    }, [listening]);
+    }, [listening, sending]);
 
     return null;
 }
