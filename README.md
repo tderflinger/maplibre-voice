@@ -5,7 +5,7 @@ Maplibre-voice is an experiment to control a [MapLibre](https://maplibre.org) ma
 This proof-of-concept was created at the [Mistral Hackathlon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for
 organizing this event.
 
-## Vision Vox
+## Vision Vox 💬
 
 I find it astonishing that currently not more websites offer voice input or voice navigation.
 So I think we should change that because voice offers an alternative way of navigating the web.
@@ -63,7 +63,7 @@ the Mistral realtime voice API works, the user experience can be further improve
 
 Five second seemed like a good compromise between having enough time to state the command and waiting for the action.
 
-## Debugging
+## Debugging 🐞
 
 Console logs are included for your convenience.
 
