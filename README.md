@@ -10,6 +10,7 @@ organizing this event.
 I find it astonishing that currently not more websites offer voice input or voice navigation.
 So I think we should change that because voice offers an alternative way of navigating the web.
 Voice control is not only useful for disabled people but for everyone.
+
 I can see a future where many, if not most websites will be voice-enabled.
 
 ## Requirements
@@ -38,6 +39,8 @@ Run the application with:
 ```bash
 bun run dev
 ```
+
+In the browser navigate to `http://localhost:5173`.
 
 ## Voice Commands
 
@@ -78,7 +81,7 @@ API key is contained in the runtime environment which is not secure.
 
 Code snippets have been taken from the Mistral and MapLibre documentation.
 
-Note: This code base was partically generated with coding LLMs.
+Note: This code base was partially generated with coding LLMs.
 
 ## Third-Party APIs
 
