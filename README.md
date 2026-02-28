@@ -28,7 +28,7 @@ VITE_MISTRAL_API_KEY=<Your key>
 
 ## Running 🚀
 
-Install the package dependencies with:
+Check out the code with git and install the package dependencies with:
 
 ```bash
 bun install
@@ -52,7 +52,7 @@ The voice commands need to be given in English. These are the available commands
 - `parks`: fetches all public parks in the current viewport of the map and displays them in the form of tree icons. 
 - `museums`: fetches all museums in the current viewport of the map and displays them in the form of a museum icon.  
 
-Note for the `parks` and `museums` commands: Please do not use a too high-level zoom because then a lot of data will be queried which might overwhelm the OSM Overpass server.
+Note for the `parks` and `museums` commands: These two commands connect to the OpenStreetMap (OSM) Overpass API server. Please do not use a too high-level zoom because then a lot of data will be queried which might overwhelm the OSM Overpass server. 
 
 You have exactly five seconds to voice your command. The data is then send to the server and
 transcribed. During sending and transmission, no voice input is possible. The icons in the
