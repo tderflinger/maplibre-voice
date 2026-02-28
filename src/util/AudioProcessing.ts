@@ -2,7 +2,7 @@ import { Mistral } from "@mistralai/mistralai";
 import { VoiceRecorder } from "../util/VoiceRecorder";
 import type { Map as MaplibreMap } from 'maplibre-gl';
 import { geocode } from "./GeocoderCall";
-import { queryParks, queryMuseums, type Park, type Museum } from "./OverpassQuery";
+import { queryParks, queryMuseums, queryWithMistral, type Park, type Museum, type POI } from "./OverpassQuery";
 
 const STT_MODEL = "voxtral-mini-latest";
 const ZOOM_IN = "zoom in";
@@ -14,8 +14,10 @@ const MUSEUMS = "museums";
 async function handleCommand(
     text: string,
     map: MaplibreMap | undefined,
+    client: Mistral,
     onParks?: (parks: Park[]) => void,
     onMuseums?: (museums: Museum[]) => void,
+    onPOIs?: (pois: POI[]) => void,
 ) {
     switch (true) {
         case text.includes(ZOOM_IN):
@@ -63,8 +65,26 @@ async function handleCommand(
             onMuseums?.(museums);
             break;
         }
-        default:
-            console.log('No command recognized in transcription.');
+        default: {
+            if (text?.trim() === '') {
+                console.log('Empty transcription, ignoring.');
+                break;
+            }
+            if (!map) break;
+            console.log('No built-in command recognized, querying Mistral for Overpass query...');
+            const bounds = map.getBounds();
+            const pois = await queryWithMistral(
+                client,
+                text,
+                bounds.getSouth(),
+                bounds.getWest(),
+                bounds.getNorth(),
+                bounds.getEast(),
+            );
+            console.log(`Mistral query returned ${pois.length} POIs`);
+            onPOIs?.(pois);
+            break;
+        }
     }
 }
 
@@ -76,6 +96,7 @@ export async function processAudio(
     onTranscription?: (text: string) => void,
     onParks?: (parks: Park[]) => void,
     onMuseums?: (museums: Museum[]) => void,
+    onPOIs?: (pois: POI[]) => void,
 ) {
     for await (const wavBlob of rec.chunkedStream()) {
         console.log(`Sending ${(wavBlob.size / 1024).toFixed(1)} KB chunk...`);
@@ -94,7 +115,7 @@ export async function processAudio(
 
         const text = transcription.text?.toLowerCase() ?? '';
         onTranscription?.(transcription.text ?? '');
-        await handleCommand(text, map, onParks, onMuseums);
+        await handleCommand(text, map, client, onParks, onMuseums, onPOIs);
 
         console.log("Listening...");
     }

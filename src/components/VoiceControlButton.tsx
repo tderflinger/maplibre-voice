@@ -4,13 +4,13 @@ import { VoiceRecorder } from '../util/VoiceRecorder';
 import { Mistral } from "@mistralai/mistralai";
 import { VoiceButtonControl } from './VoiceButtonControl';
 import { processAudio } from '../util/AudioProcessing';
-import type { Park, Museum } from '../util/OverpassQuery';
+import type { Park, Museum, POI } from '../util/OverpassQuery';
 
 const MISTRAL_API_KEY = import.meta.env.VITE_MISTRAL_API_KEY;
 
 type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
-export function VoiceControlButton({ position = 'bottom-right', onParks, onMuseums }: { position?: Position; onParks?: (parks: Park[]) => void; onMuseums?: (museums: Museum[]) => void }) {
+export function VoiceControlButton({ position = 'bottom-right', onParks, onMuseums, onPOIs }: { position?: Position; onParks?: (parks: Park[]) => void; onMuseums?: (museums: Museum[]) => void; onPOIs?: (pois: POI[]) => void }) {
     const { current: map } = useMap();
     const [listening, setListening] = useState(false);
     const [sending, setSending] = useState(false);
@@ -36,7 +36,7 @@ export function VoiceControlButton({ position = 'bottom-right', onParks, onMuseu
         setRecorder(rec);
         await rec.start();
 
-        await processAudio(rec, client, map?.getMap(), setSending, setTranscription, onParks, onMuseums);
+        await processAudio(rec, client, map?.getMap(), setSending, setTranscription, onParks, onMuseums, onPOIs);
 
         setListening(false);
         setRecorder(null);
