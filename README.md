@@ -45,7 +45,7 @@ In the browser navigate to `http://localhost:5173`.
 
 The voice commands need to be given in English. There are a number of fixed commands
 available. When these fixed commands are not recognized, there is made an attempt
-to generate a map query for any dynamic command.
+to generate a map query for __any dynamic command__.
 
 These are the available fixed commands: 
 
