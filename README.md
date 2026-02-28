@@ -2,8 +2,7 @@
 
 Maplibre-voice is an experiment to control a [MapLibre](https://maplibre.org) map with voice commands in the browser.
 
-This proof-of-concept was created at the [Mistral Hackathlon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for
-organizing this event.
+This proof-of-concept was created at the [Mistral Hackathlon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for organizing this event.
 
 ## Vision Vox 💬
 
@@ -44,7 +43,11 @@ In the browser navigate to `http://localhost:5173`.
 
 ## Voice Commands 🎤
 
-The voice commands need to be given in English. These are the available commands: 
+The voice commands need to be given in English. There are a number of fixed commands
+available. When these fixed commands are not recognized, there is made an attempt
+to generate a map query for any dynamic command.
+
+These are the available fixed commands: 
 
 - `zoom in`: zoom into map one level
 - `zoom out`: zoom out of map one level
@@ -62,6 +65,12 @@ Why five seconds? I could not make the Mistral realtime transcription API (voxtr
 the Mistral realtime voice API works, the user experience can be further improved for this project. 
 
 Five second seemed like a good compromise between having enough time to state the command and waiting for the action.
+
+💡 The most interesting part is when these commands above are not recognized, the `Devstral` 
+LLM is asked to create a custom OSM Overpass Turbo query for the command spoken by the user.
+This custom query is then executed on the Overpass Turbo API. The resulting data is shown on
+the map as pins.
+
 
 ## Debugging 🐞
 
@@ -86,6 +95,7 @@ Note: This code base was partially generated with coding LLMs.
 ## Third-Party APIs 🔌
 
 - Mistral (voxtral-mini-latest): https://docs.mistral.ai/capabilities/audio_transcription/offline_transcription
+- Mistral (devstral-2512): https://docs.mistral.ai/models/devstral-2-25-12
 - OpenFreeMap: https://openfreemap.org
 - Nominatim: https://nominatim.org
 - Overpass: https://wiki.openstreetmap.org/wiki/Overpass_API
