@@ -13,7 +13,7 @@ Voice control is not only useful for disabled people but for everyone.
 
 I can see a future where many, if not most websites will be voice-enabled.
 
-## Requirements
+## Requirements 📋 
 
 This applications needs a [Bun](https://bun.sh) runtime installed.
 
@@ -26,7 +26,7 @@ Like this:
 VITE_MISTRAL_API_KEY=<Your key>
 ```
 
-## Running
+## Running 🚀
 
 Install the package dependencies with:
 
@@ -42,7 +42,7 @@ bun run dev
 
 In the browser navigate to `http://localhost:5173`.
 
-## Voice Commands
+## Voice Commands 🎤
 
 The voice commands need to be given in English. These are the available commands: 
 
@@ -67,12 +67,12 @@ Five second seemed like a good compromise between having enough time to state th
 
 Console logs are included for your convenience.
 
-## Security
+## Security 🛡️
 
 Note that this is a proof-of-concept and not ready for production. Especially the Mistral
 API key is contained in the runtime environment which is not secure.
 
-## Software Stack
+## Software Stack ⚙️
 
 - Mistral TypeScript client: https://github.com/mistralai/client-ts
 - Maplibre-gl-js: https://github.com/maplibre/maplibre-gl-js
