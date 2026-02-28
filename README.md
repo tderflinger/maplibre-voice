@@ -46,6 +46,13 @@ The voice commands need to be given in English. These are the available commands
 - `zoom out` zoom out of map one level
 - `fly + location name + [country name]`: e.g. "fly Paris" or "fly Paris France". Note that the command is just "fly" and the location name. The country name is optional.
 
+You have exactly five seconds to voice your command. The data is then send to the server and
+transcribed. During sending and transmission, no voice input is possible. The icons in the
+control mirror the state.
+
+Why five seconds? I could not make the Mistral realtime voice API work in the browser. Once
+the Mistral realtime voice API works, the user experience can be further improved for this project.
+
 ## Debugging
 
 Console logs are included for your convenience.
@@ -63,6 +70,8 @@ API key is contained in the runtime environment which is not secure.
 - react-map-gl
 
 Code snippets have been taken from the Mistral and MapLibre documentation.
+
+Note: This code base was partically generated with coding LLMs.
 
 ## Third-Party APIs
 
