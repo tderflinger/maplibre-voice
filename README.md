@@ -16,7 +16,7 @@ I can see a future where many, if not most websites will be voice-enabled.
 
 This applications needs a [Bun](https://bun.sh) runtime installed.
 
-You need to get a Mistral API key and set it in the `.env` file in the maplibre-voice folder.
+You need to get a Mistral API key and set it in the `.env` file in the `maplibre-voice` folder.
 
 Like this:
 
@@ -44,19 +44,21 @@ bun run dev
 The voice commands need to be given in English. These are the available commands: 
 
 - `zoom in`: zoom into map one level
-- `zoom out` zoom out of map one level
+- `zoom out`: zoom out of map one level
 - `fly + location name + [country name]`: e.g. `fly Paris` or `fly Paris France`. Note that the command is just `fly` and the location name. The country name is optional.
-- `parks` fetches all public parks in the current viewport of the map and displays them in the 
-form of tree icons. Please do not use a too high-level zoom because then a lot of data will be queried which might overwhelm the OSM Overpass server.
+- `parks`: fetches all public parks in the current viewport of the map and displays them in the form of tree icons. 
+- `museums`: fetches all museums in the current viewport of the map and displays them in the form of a museum icon.  
+
+Note for the `parks` and `museums` commands: Please do not use a too high-level zoom because then a lot of data will be queried which might overwhelm the OSM Overpass server.
 
 You have exactly five seconds to voice your command. The data is then send to the server and
 transcribed. During sending and transmission, no voice input is possible. The icons in the
 control mirror the state.
 
-Why five seconds? I could not make the Mistral realtime voice API work in the browser. Once
+Why five seconds? I could not make the Mistral realtime transcription API (voxtral-mini-transcribe-realtime-2602) work in the browser. Once
 the Mistral realtime voice API works, the user experience can be further improved for this project. 
 
-Five second seemed like a good compromise between having enough time to state the command and waiting for the action
+Five second seemed like a good compromise between having enough time to state the command and waiting for the action.
 
 ## Debugging
 
@@ -69,10 +71,10 @@ API key is contained in the runtime environment which is not secure.
 
 ## Software Stack
 
-- mistralai
-- bun: 
-- maplibre-gl
-- react-map-gl
+- Mistral TypeScript client: https://github.com/mistralai/client-ts
+- Maplibre-gl-js: https://github.com/maplibre/maplibre-gl-js
+- React-map-gl: https://github.com/visgl/react-map-gl
+- Bun: https://bun.sh/
 
 Code snippets have been taken from the Mistral and MapLibre documentation.
 
@@ -80,10 +82,10 @@ Note: This code base was partically generated with coding LLMs.
 
 ## Third-Party APIs
 
-- Mistral
-- Nominatim
+- Mistral (voxtral-mini-latest): https://docs.mistral.ai/capabilities/audio_transcription/offline_transcription
 - OpenFreeMap: https://openfreemap.org
-- Overpass:
+- Nominatim: https://nominatim.org
+- Overpass: https://wiki.openstreetmap.org/wiki/Overpass_API
 
 ## License
 

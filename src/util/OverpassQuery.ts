@@ -1,29 +1,21 @@
-export interface Park {
+export interface POI {
   name: string;
   latitude: number;
   longitude: number;
 }
 
-/**
- * Query the Overpass API for parks within a bounding box.
- * Returns only parks that have a non-empty name.
- *
- * @param south - Southern latitude of the bounding box
- * @param west  - Western longitude of the bounding box
- * @param north - Northern latitude of the bounding box
- * @param east  - Eastern longitude of the bounding box
- */
-export async function queryParks(
-  south: number,
-  west: number,
-  north: number,
-  east: number,
-): Promise<Park[]> {
+/** @deprecated Use POI instead */
+export type Park = POI;
+export type Museum = POI;
+
+async function queryOverpass(
+  south: number, west: number, north: number, east: number,
+  filter: string,
+): Promise<POI[]> {
   const query = `
 [out:json][bbox:${south},${west},${north},${east}];
 (
-  way["leisure"="park"];
-  relation["leisure"="park"];
+  ${filter}
 );
 out center;
 `;
@@ -49,4 +41,28 @@ out center;
       latitude: el.center.lat,
       longitude: el.center.lon,
     }));
+}
+
+/**
+ * Query the Overpass API for parks within a bounding box.
+ * Returns only parks that have a non-empty name.
+ */
+export async function queryParks(
+  south: number, west: number, north: number, east: number,
+): Promise<Park[]> {
+  return queryOverpass(south, west, north, east,
+    `way["leisure"="park"];\n  relation["leisure"="park"];`
+  );
+}
+
+/**
+ * Query the Overpass API for museums within a bounding box.
+ * Returns only museums that have a non-empty name.
+ */
+export async function queryMuseums(
+  south: number, west: number, north: number, east: number,
+): Promise<Museum[]> {
+  return queryOverpass(south, west, north, east,
+    `node["tourism"="museum"];\n  way["tourism"="museum"];\n  relation["tourism"="museum"];`
+  );
 }
