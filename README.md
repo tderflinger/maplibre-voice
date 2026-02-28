@@ -20,6 +20,7 @@ You need to get a Mistral API key and set it in the `.env` file in the maplibre-
 
 Like this:
 
+.env
 ```bash
 VITE_MISTRAL_API_KEY=<Your key>
 ```
@@ -44,14 +45,18 @@ The voice commands need to be given in English. These are the available commands
 
 - `zoom in`: zoom into map one level
 - `zoom out` zoom out of map one level
-- `fly + location name + [country name]`: e.g. "fly Paris" or "fly Paris France". Note that the command is just "fly" and the location name. The country name is optional.
+- `fly + location name + [country name]`: e.g. `fly Paris` or `fly Paris France`. Note that the command is just `fly` and the location name. The country name is optional.
+- `parks` fetches all public parks in the current viewport of the map and displays them in the 
+form of tree icons. Please do not use a too high-level zoom because then a lot of data will be queried which might overwhelm the OSM Overpass server.
 
 You have exactly five seconds to voice your command. The data is then send to the server and
 transcribed. During sending and transmission, no voice input is possible. The icons in the
 control mirror the state.
 
 Why five seconds? I could not make the Mistral realtime voice API work in the browser. Once
-the Mistral realtime voice API works, the user experience can be further improved for this project.
+the Mistral realtime voice API works, the user experience can be further improved for this project. 
+
+Five second seemed like a good compromise between having enough time to state the command and waiting for the action
 
 ## Debugging
 
@@ -78,6 +83,7 @@ Note: This code base was partically generated with coding LLMs.
 - Mistral
 - Nominatim
 - OpenFreeMap: https://openfreemap.org
+- Overpass:
 
 ## License
 

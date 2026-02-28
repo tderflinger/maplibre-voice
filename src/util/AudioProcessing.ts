@@ -2,13 +2,19 @@ import { Mistral } from "@mistralai/mistralai";
 import { VoiceRecorder } from "../util/VoiceRecorder";
 import type { Map as MaplibreMap } from 'maplibre-gl';
 import { geocode } from "./GeocoderCall";
+import { queryParks, type Park } from "./OverpassQuery";
 
 const STT_MODEL = "voxtral-mini-latest";
 const ZOOM_IN = "zoom in";
 const ZOOM_OUT = "zoom out";
 const FLY = "fly";
+const PARKS = "parks";
 
-async function handleCommand(text: string, map: MaplibreMap | undefined) {
+async function handleCommand(
+    text: string,
+    map: MaplibreMap | undefined,
+    onParks?: (parks: Park[]) => void,
+) {
     switch (true) {
         case text.includes(ZOOM_IN):
             console.log('Zooming in!');
@@ -29,6 +35,19 @@ async function handleCommand(text: string, map: MaplibreMap | undefined) {
             }
             break;
         }
+        case text.includes(PARKS): {
+            if (!map) break;
+            const bounds = map.getBounds();
+            const south = bounds.getSouth();
+            const west = bounds.getWest();
+            const north = bounds.getNorth();
+            const east = bounds.getEast();
+            console.log(`Querying parks in bounds: ${south},${west},${north},${east}`);
+            const parks = await queryParks(south, west, north, east);
+            console.log(`Found ${parks.length} parks`);
+            onParks?.(parks);
+            break;
+        }
         default:
             console.log('No command recognized in transcription.');
     }
@@ -40,6 +59,7 @@ export async function processAudio(
     map: MaplibreMap | undefined,
     setSending: (v: boolean) => void,
     onTranscription?: (text: string) => void,
+    onParks?: (parks: Park[]) => void,
 ) {
     for await (const wavBlob of rec.chunkedStream()) {
         console.log(`Sending ${(wavBlob.size / 1024).toFixed(1)} KB chunk...`);
@@ -58,7 +78,7 @@ export async function processAudio(
 
         const text = transcription.text?.toLowerCase() ?? '';
         onTranscription?.(transcription.text ?? '');
-        await handleCommand(text, map);
+        await handleCommand(text, map, onParks);
 
         console.log("Listening...");
     }
