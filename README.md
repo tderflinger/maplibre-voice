@@ -1,13 +1,16 @@
 # maplibre-voice
 
-Maplibre-voice is an experiment to control a MapLibre map with voice commands in the browser.
+Maplibre-voice is an experiment to control a [MapLibre](https://maplibre.org) map with voice commands in the browser.
 
-This proof-of-concept was created at the Mistral Hackathlon 2026. Thanks to Mistral for
+This proof-of-concept was created at the [Mistral Hackathlon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for
 organizing this event.
 
+## Vision Vox
 
-
-I can see a future where many if not most websites will be voice-enabled.
+I find it astonishing that currently not more websites offer voice input or voice navigation.
+So I think we should change that because voice offers an alternative way of navigating the web.
+Voice control is not only useful for disabled people but for everyone.
+I can see a future where many, if not most websites will be voice-enabled.
 
 ## Requirements
 
@@ -42,6 +45,10 @@ The voice commands need to be given in English. These are the available commands
 - `zoom in`: zoom into map one level
 - `zoom out` zoom out of map one level
 - `fly + location name + [country name]`: e.g. "fly Paris" or "fly Paris France". Note that the command is just "fly" and the location name. The country name is optional.
+
+## Debugging
+
+Console logs are included for your convenience.
 
 ## Security
 

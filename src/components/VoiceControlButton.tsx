@@ -3,13 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { VoiceRecorder } from '../util/VoiceRecorder';
 import { Mistral } from "@mistralai/mistralai";
 import { VoiceButtonControl } from './VoiceButtonControl';
-import { geocode } from '../util/GeocoderCall';
+import { processAudio } from '../util/AudioProcessing';
 
 const MISTRAL_API_KEY = import.meta.env.VITE_MISTRAL_API_KEY;
-const STT_MODEL = "voxtral-mini-latest";
-const ZOOM_IN = "zoom in";
-const ZOOM_OUT = "zoom out";
-const FLY = "fly";
 
 type Position = 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 
@@ -17,6 +13,7 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
     const { current: map } = useMap();
     const [listening, setListening] = useState(false);
     const [sending, setSending] = useState(false);
+    const [transcription, setTranscription] = useState<string | null>(null);
     const [recorder, setRecorder] = useState<VoiceRecorder | null>(null);
     const containerRef = useRef<HTMLDivElement>(document.createElement('div'));
 
@@ -38,50 +35,11 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
         setRecorder(rec);
         await rec.start();
 
-        for await (const wavBlob of rec.chunkedStream()) {
-            console.log(`Sending ${(wavBlob.size / 1024).toFixed(1)} KB chunk...`);
-
-            const file = new File([wavBlob], "audio.wav", { type: "audio/wav" });
-            setSending(true);
-            const transcription = await client.audio.transcriptions.complete({
-                model: STT_MODEL,
-                language: 'en',
-                temperature: 0,
-                diarize: false,
-                file,
-            });
-            setSending(false);
-            console.log('Transcription:', JSON.stringify(transcription));
-
-            const text = transcription.text?.toLowerCase() ?? '';
-            switch (true) {
-                case text.includes(ZOOM_IN):
-                    console.log('Zooming in!');
-                    map?.getMap().zoomIn();
-                    break;
-                case text.includes(ZOOM_OUT):
-                    console.log('Zooming out!');
-                    map?.getMap().zoomOut();
-                    break;
-                case text.includes(FLY):
-                    const destination = text.substring(text.indexOf(FLY) + FLY.length).trim();
-                    console.log('Flying to:', destination);
-                    const coords = await geocode(destination);
-                    if (coords) {
-                        map?.getMap().flyTo({ center: [coords.longitude, coords.latitude], zoom: 14 });
-                    } else {
-                        console.log('Destination not found.');
-                    }
-                    break;
-                default:
-                    console.log('No command recognized in transcription.');
-            }
-
-            console.log("Listening...");
-        }
+        await processAudio(rec, client, map?.getMap(), setSending, setTranscription);
 
         setListening(false);
         setRecorder(null);
+        setTimeout(() => setTranscription(null), 3000);
     };
 
     useEffect(() => {
@@ -115,5 +73,24 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
         };
     }, [listening, sending]);
 
-    return null;
+    return transcription ? (
+        <div style={{
+            position: 'absolute',
+            bottom: 20,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            color: 'white',
+            padding: '10px 20px',
+            borderRadius: 8,
+            fontSize: 16,
+            fontFamily: 'system-ui, sans-serif',
+            zIndex: 1000,
+            pointerEvents: 'none',
+            maxWidth: '80vw',
+            textAlign: 'center',
+        }}>
+            {transcription}
+        </div>
+    ) : null;
 }
