@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { VoiceRecorder } from '../util/VoiceRecorder';
 import { Mistral } from "@mistralai/mistralai";
 import { VoiceButtonControl } from './VoiceButtonControl';
+import { geocode } from '../util/GeocoderCall';
 
 const MISTRAL_API_KEY = import.meta.env.VITE_MISTRAL_API_KEY;
 const STT_MODEL = "voxtral-mini-latest";
@@ -63,7 +64,14 @@ export function VoiceControlButton({ position = 'bottom-right' }: { position?: P
                     map?.getMap().zoomOut();
                     break;
                 case text.includes(FLY):
-                    console.log('Flying...');
+                    const destination = text.substring(text.indexOf(FLY) + FLY.length).trim();
+                    console.log('Flying to:', destination);
+                    const coords = await geocode(destination);
+                    if (coords) {
+                        map?.getMap().flyTo({ center: [coords.longitude, coords.latitude], zoom: 14 });
+                    } else {
+                        console.log('Destination not found.');
+                    }
                     break;
                 default:
                     console.log('No command recognized in transcription.');

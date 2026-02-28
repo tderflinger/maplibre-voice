@@ -37,9 +37,11 @@ bun run dev
 
 ## Voice Commands
 
-- zoom in
-- zoom out
-- fly
+The voice commands need to be given in English. These are the available commands: 
+
+- "zoom in": zoom into map one level
+- "zoom out" zoom out of map one level
+- "fly + location name + [country name]": e.g. "fly Paris" or "fly fly Paris France". Note that the command is just "fly" and the location name. The country name is optional.
 
 ## Security
 
@@ -52,6 +54,13 @@ API key is contained in the runtime environment which is not secure.
 - bun: 
 - maplibre-gl
 - react-map-gl
+
+Code snippets have been taken from the Mistral and MapLibre documentation.
+
+## Third-Party APIs
+
+- Mistral
+- Nominatim
 - OpenFreeMap: https://openfreemap.org
 
 ## License
