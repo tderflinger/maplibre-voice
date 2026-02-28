@@ -71,6 +71,9 @@ LLM is asked to create a custom OSM Overpass Turbo query for the command spoken 
 This custom query is then executed on the Overpass Turbo API. The resulting data is shown on
 the map as pins.
 
+A dynamic command can be for example: "Show me all pharamacies.". Basically you can ask
+anything that fits into the five seconds speech boundary.
+
 
 ## Debugging 🐞
 
