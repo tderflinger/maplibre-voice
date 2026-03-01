@@ -4,7 +4,7 @@
 
 Maplibre-voice is an experiment to control a [MapLibre](https://maplibre.org) map with voice commands in the browser.
 
-This proof-of-concept was created at the [Mistral Hackathlon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for organizing this event.
+This proof-of-concept was created at the [Mistral Hackathon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for organizing this event.
 
 Note that `maplibre-voice` has no affiliation with the MapLibre project. The idea was
 to make out of this experiment a MapLibre plugin in the future.
@@ -57,6 +57,14 @@ bun run dev
 In the browser navigate to `http://localhost:5173`.
 
 ## Voice Commands 🎤
+
+In order to activate the voice command listening mode, you need to press the microphone
+button on the bottom right of the map view. The browser will ask for your consent to
+use the microphone.
+
+![Controls of map](./assets/screenshot-controls.jpg)
+
+Then you can start speaking the commands.
 
 The voice commands need to be given in English. There are a number of fixed commands
 available. When these fixed commands are not recognized, there is made an attempt
