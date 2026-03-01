@@ -11,13 +11,11 @@ to make out of this experiment a MapLibre plugin in the future.
 
 ## What does maplibre-voice Do?
 
-The experiment `maplibre-voice` lets you control a map in the browser with voice commands.
-There are not only fixed commands, but you can speak any command you can think of. The
-LLM behind this application will try to understand the command and transform it into an
-API query that returns the data. The result is parsed and displayed on the map as pins.
+The `maplibre-voice` experiment enables voice-based interaction with a browser map.
+In addition to predefined commands, users can issue open-ended requests in natural language.
+An LLM interprets each spoken command, translates it into an API query, and returns results that are rendered as map pins.
 
-This dynamic capability sets this project apart from similar attempts at controlling a map
-with voice commands.
+This flexible, query-driven design differentiates `maplibre-voice` from other attempts at voice-controlled mapping implementations.
 
 ## Vision Vox 💬
 
