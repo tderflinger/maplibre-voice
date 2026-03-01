@@ -1,3 +1,5 @@
+![Weblibre-voice logo](./assets/maplibre-voice-logo.png)
+
 # maplibre-voice
 
 Maplibre-voice is an experiment to control a [MapLibre](https://maplibre.org) map with voice commands in the browser.
@@ -74,7 +76,6 @@ the map as pins.
 A dynamic command can be for example: "Show me all pharamacies.". Basically you can ask
 anything that fits into the five seconds speech boundary.
 
-
 ## Debugging 🐞
 
 Console logs are included for your convenience.
@@ -102,6 +103,10 @@ Note: This code base was partially generated with coding LLMs.
 - OpenFreeMap: https://openfreemap.org
 - Nominatim: https://nominatim.org
 - Overpass: https://wiki.openstreetmap.org/wiki/Overpass_API
+
+## Prior Art
+
+The project [SpeechMap](https://github.com/do-me/speechmap) from Dominik Weckmüller had the idea and implemented it five years ago. I have only seen the project after developing `maplibre-voice`. He used a different stack and does not have dynamic queries like `maplibre-voice` with the Devstral model that dynamically generates OSM Overpass queries.
 
 ## License ⚖️
 
