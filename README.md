@@ -62,7 +62,7 @@ In order to activate the voice command listening mode, you need to press the mic
 button on the bottom right of the map view. The browser will ask for your consent to
 use the microphone.
 
-![Controls of map](./assets/screenshot-controls.jpg){width="50%"}
+![Controls of map](./assets/screenshot-controls-small.jpg)
 
 Then you can start speaking the commands.
 
