@@ -6,6 +6,9 @@ Maplibre-voice is an experiment to control a [MapLibre](https://maplibre.org) ma
 
 This proof-of-concept was created at the [Mistral Hackathlon 2026](https://worldwide-hackathon.mistral.ai/). Thanks to Mistral for organizing this event.
 
+Note that `maplibre-voice` has no affiliation with the MapLibre project. The idea was
+to make out of this experiment a MapLibre plugin in the future.
+
 ## Vision Vox 💬
 
 I find it astonishing that currently not more websites offer voice input or voice navigation.
@@ -104,7 +107,7 @@ Note: This code base was partially generated with coding LLMs.
 - Nominatim: https://nominatim.org
 - Overpass: https://wiki.openstreetmap.org/wiki/Overpass_API
 
-## Prior Art
+## Prior Art 🏛️
 
 The project [SpeechMap](https://github.com/do-me/speechmap) from Dominik Weckmüller had the idea and implemented it five years ago. I have only seen the project after developing `maplibre-voice`. He used a different stack and does not have dynamic queries like `maplibre-voice` with the Devstral model that dynamically generates OSM Overpass queries.
 
