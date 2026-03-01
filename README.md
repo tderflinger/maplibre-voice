@@ -82,8 +82,8 @@ the Mistral realtime voice API works, the user experience can be further improve
 Five second seemed like a good compromise between having enough time to state the command and waiting for the action.
 
 💡 The most interesting part is when these commands above are not recognized, the `Devstral` 
-LLM is asked to create a custom OSM Overpass Turbo query for the command spoken by the user.
-This custom query is then executed on the Overpass Turbo API. The resulting data is shown on
+LLM is asked to create a custom OSM Overpass query for the command spoken by the user.
+This custom query is then executed on the Overpass API. The resulting data is shown on
 the map as pins.
 
 A dynamic command can be for example: "Show me all pharamacies.". Basically you can ask
